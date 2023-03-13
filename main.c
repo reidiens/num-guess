@@ -12,7 +12,7 @@ void errCheck(int scanout, int* guess, int* errs) {
 		if (scanout != 1) { 									// checks if output of scanf is different to one (the amount of values we need written)
 			++*errs; 											// counts the number of errors encountered this way
 			printf("\nInput Error!! Maybe try using a number this time:\n> ");
-			int c = getchar(); 									// pauses the function to get new input
+			getchar(); 									// pauses the function to get new input
 			errCheck(scanf("%d", guess), guess, errs); 			// writes new value for guess and error checks itself!
 	}
 }
