@@ -55,7 +55,7 @@ int main() {
 		if (guess > num)
 			printf("\nMy number is less than that!\n> ");
 		else if (guess < num)
-			printf("\nMy number is more that!\n> ");
+			printf("\nMy number is more than that!\n> ");
 		errCheck(scanf("%d", &guess), &guess, &errs); 	// get (and check) input again
 	}
 	
