@@ -22,7 +22,7 @@ void endgame(int* guess, int* errs, int* tries, int* num){
 // if you encountered 0 input errors
 	if (*guess == *num && *errs == 0) {
 		if (*tries > 1)
-			printf("\033[0;33m\n\aYou guessed it :D !\nIt took you %d tries!\nNice job!:3\n", *tries); // \033[0;33 formats text to yellow
+			printf("\033[0;33m\n\aYou guessed it :D !\nIt took you %d tries!\nNice job!:3\n", *tries); // \033[0;33 formats text to yellow; \a plays a beep, but doesn't work on all terminals
 		else if  (*tries == 1)
 			printf("\033[0;33m\n\aWow! You got it first try!! \nNice job :D\n");
 	}
