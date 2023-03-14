@@ -4,12 +4,13 @@
 
 #define UPPER 100 			// max value that can be generated
 #define LOWER 1 			// min value that can be generated
-
+#define MAX_READ 1			// amount of values we want scanf to write
+#define MIN_ERRS 0 			// minimum amount of errors a game can have
+#define MIN_TRIES 1 			// minimum amount of tries 
 
 // user input error check
 void errCheck(int scanout, int* guess, int* errs) { 	
-	int i = 1;
-		if (scanout != 1) { 									// checks if output of scanf is different to one (the amount of values we need written)
+		if (scanout != MAX_READ) { 									// checks if output of scanf is different to one (the amount of values we need written)
 			++*errs; 											// counts the number of errors encountered this way
 			printf("\033[0;31m\nInput Error!! Maybe try using a number this time:\033[0;36m\n> "); 			//  \033[0;31m formats text to red; \033[0;30m formats text to black (more info at the bottom )
 			int c = getchar(); 									// pauses the function to get new input
@@ -18,26 +19,25 @@ void errCheck(int scanout, int* guess, int* errs) {
 }
 
 // function handling the endgame message
-void endgame(int* guess, int* errs, int* tries, int* num){
-// if you encountered 0 input errors
-	if (*guess == *num && *errs == 0) {
-		if (*tries > 1)
+void endgame(int* guess, int* errs, int* tries, int* secret_num){
+	if (*guess == *secret_num && *errs == MIN_ERRS) {
+		if (*tries > MIN_TRIES)
 			printf("\033[0;33m\n\aYou guessed it :D !\nIt took you %d tries!\nNice job!:3\n", *tries); // \033[0;33 formats text to yellow; \a plays a beep, but doesn't work on all terminals
-		else if  (*tries == 1)
+		else if  (*tries == MIN_TRIES)
 			printf("\033[0;33m\n\aWow! You got it first try!! \nNice job :D\n");
 	}
 // if there was only 1 input error
-	else if (*guess == *num && *errs == 1) {
-		if (*tries > 1)
+	else if (*guess == *secret_num && *errs == 1) {
+		if (*tries > MIN_TRIES)
 			printf("\033[0;33m\n\aYou guessed it :D !\nIt took you %d tries, and 1 error!\nNice job!:3\n", *tries);
-		else if  (*tries == 1)
+		else if  (*tries == MIN_TRIES)
 			printf("\033[0;33m\n\aWow! You got it first try with 1 error!!\nNice job :D\n");
 	}
 // if there were multiple input errors
-	else if (*guess == *num && *errs >= 1) {
-		if (*tries > 1)
+	else if (*guess == *secret_num && *errs >= 1) {
+		if (*tries > MIN_TRIES)
 			printf("\033[0;33m\n\aYou guessed it :D !\nIt took you %d tries, and %d errors!\nNice job!:3\n", *tries, *errs);
-		else if  (*tries == 1)
+		else if  (*tries == MIN_TRIES)
 			printf("\033[0;33m\n\aWow! You got it first try with %d errors!!\nNice job :D\n", *errs);
 	}
 	printf("\033[0m"); 		// reset the terminal color back to default
@@ -45,22 +45,22 @@ void endgame(int* guess, int* errs, int* tries, int* num){
 
 int main() {
 	srand(time(NULL)); 									// seed the rand() function (more info at the bottom)
-	int num = (rand() % UPPER) + LOWER; 				// generate & store randomly generated number from 1 - 100 (more info at the bottom)
+	int secret_num = (rand() % UPPER) + LOWER; 				// generate & store randomly generated number from 1 - 100 (more info at the bottom)
 	
 	int guess, tries = 1, errs = 0; 					// guess = user input; tries = amount of tries (1, because first try doesn't increment the counter); errs = numbers of input errors
 	printf("\033[0;32mGuess what number I'm thinking of!\033[0;36m\n> "); // \033[0;32m formats text to green
 	errCheck(scanf("%d", &guess), &guess, &errs); 		// run the output of scanf through error check, along w/ necessary values
 	
-	while (guess != num) {
+	while (guess != secret_num) {
 		++tries; 										// count the amount of tries
-		if (guess > num)
+		if (guess > secret_num)
 			printf("\033[0;32m\nMy number is less than that!\n\033[0;36m> ");
-		else if (guess < num)
+		else if (guess < secret_num)
 			printf("\033[0;32m\nMy number is more than that!\n\033[0;36m> ");
 		errCheck(scanf("%d", &guess), &guess, &errs); 	// get (and check) input again
 	}
 	
-	endgame(&guess, &errs, &tries, &num); 				// run the endgame function
+	endgame(&guess, &errs, &tries, &secret_num); 				// run the endgame function
 }
 
 /* The ANSI colors (\033[0;XX in printf) vary depending on what terminal theme you use. The stated colors are the default, but the code for red may
