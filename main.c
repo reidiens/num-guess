@@ -27,14 +27,14 @@ void endgame(int* guess, int* errs, int* tries, int* secret_num){
 			printf("\033[0;33m\n\aWow! You got it first try!! \nNice job :D\n");
 	}
 // if there was only 1 input error
-	else if (*guess == *secret_num && *errs == 1) {
+	else if (*guess == *secret_num && *errs == MIN_ERRS + 1) {
 		if (*tries > MIN_TRIES)
 			printf("\033[0;33m\n\aYou guessed it :D !\nIt took you %d tries, and 1 error!\nNice job!:3\n", *tries);
 		else if  (*tries == MIN_TRIES)
 			printf("\033[0;33m\n\aWow! You got it first try with 1 error!!\nNice job :D\n");
 	}
 // if there were multiple input errors
-	else if (*guess == *secret_num && *errs >= 1) {
+	else if (*guess == *secret_num && *errs >= MIN_ERRS + 1) {
 		if (*tries > MIN_TRIES)
 			printf("\033[0;33m\n\aYou guessed it :D !\nIt took you %d tries, and %d errors!\nNice job!:3\n", *tries, *errs);
 		else if  (*tries == MIN_TRIES)
