@@ -51,15 +51,16 @@ int main() {
 	printf("\033[0;32mGuess what number I'm thinking of!\033[0;36m\n> "); // \033[0;32m formats text to green
 	errCheck(scanf("%d", &guess), &guess, &errs); 		// run the output of scanf through error check, along w/ necessary values
 	
-	while (guess != secret_num) {
+	while (guess != num) {
 		++tries; 										// count the amount of tries
-		if (guess > secret_num)
+		if ((guess > num) && (guess < 100))
 			printf("\033[0;32m\nMy number is less than that!\n\033[0;36m> ");
-		else if (guess < secret_num)
+		else if ((guess < num) && (guess > 1))
 			printf("\033[0;32m\nMy number is more than that!\n\033[0;36m> ");
+		else if ((guess > 100) || (guess < 1))
+			printf("\033[0;32m\nThe number is only from 1 to 100, silly!\n\033[0;36m> ");
 		errCheck(scanf("%d", &guess), &guess, &errs); 	// get (and check) input again
 	}
-	
 	endgame(&guess, &errs, &tries, &secret_num); 				// run the endgame function
 }
 
